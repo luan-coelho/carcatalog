@@ -1,44 +1,70 @@
-# Miscellaneous
+# Arquivos e diretórios específicos do Flutter
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/app.flx
+**/ios/Flutter/app.zip
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
+**/android/app/build/
+flutter_export_environment.sh
+
+# Arquivos e diretórios específicos do Dart
+.dart_tool/
+.packages
+.pub/
+.pub-cache/
+build/
+**/*.dart.js
+**/*.dart.js.deps
+**/*.dart.js.map
+**/*.dart.js.tar.gz
+**/*.dart.js.bootstrap
+**/*.dart.js.part
+**/*.info.json
+**/*.dart.precompiled.js
+**/*.dart2js.precompiled.js
+
+# Artefatos do sistema de compilação
 *.class
 *.log
 *.pyc
 *.swp
-.DS_Store
-.atom/
-.buildlog/
-.history
-.svn/
-migrate_working_dir/
+*.bak
+*.tmp
+*.tmproj
+*.mode1
+*.mode1v3
+*.mode2v3
+*.perspective
+*.perspectivev3
+*.sublime-workspace
 
-# IntelliJ related
+# Arquivos do sistema operacional
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Arquivos de IDE e editores de texto
+/.idea/
+/.vscode/
 *.iml
 *.ipr
 *.iws
-.idea/
+*.tmproj
+*.tmproject
+*.sublime-workspace
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# Arquivos de teste
+test_driver/*.screenshots
+test_driver/*.png
 
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.packages
-.pub-cache/
-.pub/
-/build/
-
-# Symbolication related
-app.*.symbols
-
-# Obfuscation related
-app.*.map.json
-
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Pasta temporária do Flutter
+flutter_*.pid.lock

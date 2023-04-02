@@ -1,5 +1,4 @@
-import 'package:carshop/pages/car_page.dart';
-import 'package:carshop/pages/index_page.dart';
+import 'package:carshop/routes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,13 +15,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Car Shop',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
       initialRoute: '/',
-      routes: {
-        '/': (_) => const IndexPage(),
-        '/cars': (_) => const CarPage(),
-      },
+      routes: AppRoutes.routes,
     );
   }
 }

@@ -7,12 +7,12 @@ class IndexPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Car Shop - Venda de Carros'),
+          title: const Text('AutoMngr - Catalógo de Carros'),
         ),
         body: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const SizedBox(height: 30),
+            const SizedBox(height: 10),
             Center(
               child: ElevatedButton(
                 style: ButtonStyle(

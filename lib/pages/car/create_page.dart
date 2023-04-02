@@ -7,7 +7,7 @@ class CreateCarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Carros'),
+          title: const Text('Cadastrar'),
         ),
         body: const Text("Cadastro de Carro"));
   }

@@ -1,3 +1,4 @@
+import 'package:carshop/routes.dart';
 import 'package:flutter/material.dart';
 
 class IndexPage extends StatelessWidget {
@@ -19,7 +20,7 @@ class IndexPage extends StatelessWidget {
                   backgroundColor: MaterialStateProperty.all<Color>(Color(Colors.black54.value)),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, "/cars");
+                  Navigator.pushNamed(context, AppRoutes.cars);
                 },
                 child: const Text('Ir para listagem de carros'),
               ),

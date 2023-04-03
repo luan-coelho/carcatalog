@@ -2,12 +2,10 @@
   "cars": [
     {
       "id": 1,
-      "make": "Toyota",
       "model": "Corolla",
       "year": 2020,
       "fuelType": "Gasoline",
       "color": "Blue",
-      "mileage": 25000,
       "price": 18000,
       "description": "Well-maintained used car.",
       "brand": {
@@ -21,12 +19,10 @@
     },
     {
       "id": 2,
-      "make": "Honda",
       "model": "Civic",
       "year": 2019,
       "fuelType": "Gasoline",
       "color": "Red",
-      "mileage": 30000,
       "price": 17000,
       "description": "Low mileage, great condition.",
       "brand": {
@@ -40,12 +36,10 @@
     },
     {
       "id": 3,
-      "make": "Tesla",
       "model": "Model 3",
       "year": 2021,
       "fuelType": "Electric",
       "color": "White",
-      "mileage": 10000,
       "price": 45000,
       "description": "Like new, electric vehicle.",
       "brand": {
@@ -56,6 +50,20 @@
         "id": 1,
         "name": "Sedan"
       }
+    }
+  ],
+  "brands": [
+    {
+      "id": 1,
+      "name": "Sedan"
+    },
+    {
+      "id": 2,
+      "name": "Honda"
+    },
+    {
+      "id": 3,
+      "name": "Tesla"
     }
   ]
 }

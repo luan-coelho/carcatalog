@@ -50,12 +50,15 @@
         "id": 1,
         "name": "Sedan"
       }
+    },
+    {
+      "id": 4
     }
   ],
   "brands": [
     {
       "id": 1,
-      "name": "Sedan"
+      "name": "Toyota"
     },
     {
       "id": 2,
@@ -65,6 +68,15 @@
       "id": 3,
       "name": "Tesla"
     }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Sedan"
+    },
+    {
+      "id": 2,
+      "name": "Strada"
+    }
   ]
 }
-

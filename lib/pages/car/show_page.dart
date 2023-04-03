@@ -10,7 +10,7 @@ class ShowCarPage extends StatelessWidget {
     final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
     final int id = arguments['id'];
 
-    Future<Car> carResponse = CarService().getCarById(id);
+    Future<Car> carResponse = CarService().getById(id);
 
     return Scaffold(
         appBar: AppBar(

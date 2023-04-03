@@ -8,7 +8,7 @@ class IndexCarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<Car>> cars = CarService().getAllCars();
+    Future<List<Car>> cars = CarService().getAll();
 
     return Scaffold(
       appBar: AppBar(

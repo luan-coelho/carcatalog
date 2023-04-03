@@ -6,7 +6,7 @@ import 'package:carshop/models/car.dart';
 class CarService {
   final String _baseUrl = "http://localhost:3000";
 
-  Future<List<Car>> getAllCars() async {
+  Future<List<Car>> getAll() async {
     final response = await http.get(Uri.parse("$_baseUrl/cars"));
 
     if (response.statusCode == 200) {
@@ -17,7 +17,7 @@ class CarService {
     }
   }
 
-  Future<Car> getCarById(int id) async {
+  Future<Car> getById(int id) async {
     final response = await http.get(Uri.parse("$_baseUrl/cars/$id"));
 
     if (response.statusCode == 200) {
@@ -26,5 +26,17 @@ class CarService {
     } else {
       throw Exception('Error when searching car by id');
     }
+  }
+
+  Future<bool> create(Car car) async {
+    Map<String, dynamic> carMap = car.toMap();
+    String json = jsonEncode(carMap);
+
+    final response = await http.post(Uri.parse("$_baseUrl/cars/"), body: json);
+
+    if (response.statusCode != 200 || response.statusCode != 201) {
+      return false;
+    }
+    return true;
   }
 }

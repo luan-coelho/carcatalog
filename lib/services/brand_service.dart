@@ -4,7 +4,7 @@ import 'package:carshop/models/brand.dart';
 import 'package:http/http.dart' as http;
 
 class BrandService {
-  final String _baseUrl = "http://localhost:3000";
+  final String _baseUrl = "http://localhost:8080";
 
   Future<List<Brand>> getAll() async {
     final response = await http.get(Uri.parse("$_baseUrl/brands"));

@@ -5,7 +5,6 @@
       "model": "Corolla",
       "year": 2020,
       "fuelType": "Gasoline",
-      "color": "Blue",
       "price": 18000,
       "description": "Well-maintained used car.",
       "brand": {
@@ -22,7 +21,6 @@
       "model": "Civic",
       "year": 2019,
       "fuelType": "Gasoline",
-      "color": "Red",
       "price": 17000,
       "description": "Low mileage, great condition.",
       "brand": {
@@ -39,7 +37,6 @@
       "model": "Model 3",
       "year": 2021,
       "fuelType": "Electric",
-      "color": "White",
       "price": 45000,
       "description": "Like new, electric vehicle.",
       "brand": {
@@ -53,6 +50,12 @@
     },
     {
       "id": 4
+    },
+    {
+      "id": 5
+    },
+    {
+      "id": 6
     }
   ],
   "brands": [

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:carshop/models/car.dart';
 
 class CarService {
-  final String _baseUrl = "http://localhost:3000";
+  final String _baseUrl = "http://localhost:8080";
 
   Future<List<Car>> getAll() async {
     final response = await http.get(Uri.parse("$_baseUrl/cars"));
@@ -32,7 +32,7 @@ class CarService {
     Map<String, dynamic> carMap = car.toMap();
     String json = jsonEncode(carMap);
 
-    final response = await http.post(Uri.parse("$_baseUrl/cars/"), body: json);
+    final response = await http.post(Uri.parse("$_baseUrl/cars"), body: json);
 
     if (response.statusCode != 200 || response.statusCode != 201) {
       return false;

@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:carshop/models/car.dart';
+import 'package:http/http.dart' as http;
 
 class CarService {
   final String _baseUrl = "http://localhost:8080";
@@ -32,11 +33,12 @@ class CarService {
     Map<String, dynamic> carMap = car.toMap();
     String json = jsonEncode(carMap);
 
-    final response = await http.post(Uri.parse("$_baseUrl/cars"), body: json);
+    final response = await http.post(Uri.parse("$_baseUrl/cars"),
+        body: json, headers: {'Content-Type': 'application/json'});
 
-    if (response.statusCode != 200 || response.statusCode != 201) {
-      return false;
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
     }
-    return true;
+    return false;
   }
 }

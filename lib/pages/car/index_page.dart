@@ -36,13 +36,13 @@ class IndexCarPage extends StatelessWidget {
                     title: Text("$brand $model"),
                     trailing: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green[800]),
+                          backgroundColor: Colors.blue[800]),
                       onPressed: () {
                         int carId = cars[index].id;
                         Navigator.pushNamed(context, AppRoutes.showCar,
                             arguments: {"id": carId});
                       },
-                      child: const Text("Visualizar"),
+                      child: const Text("Detalhes"),
                     ),
                   );
                 },
@@ -53,7 +53,7 @@ class IndexCarPage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.green[800],
         onPressed: () {
           Navigator.pushNamed(context, AppRoutes.createCar);
         },

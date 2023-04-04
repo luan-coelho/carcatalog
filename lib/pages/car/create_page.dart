@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:carshop/models/brand.dart';
 import 'package:carshop/models/car.dart';
 import 'package:carshop/models/category.dart';
+import 'package:carshop/models/fueltype.dart';
 import 'package:carshop/routes.dart';
 import 'package:carshop/services/brand_service.dart';
 import 'package:carshop/services/car_service.dart';
@@ -18,6 +19,9 @@ class CreateCarPage extends StatefulWidget {
 }
 
 class _CreateCarPageState extends State<CreateCarPage> {
+  late Future<List<FuelType>> futureFuelType;
+  Brand? selectedFuelType;
+
   late Future<List<Brand>> futureBrands;
   Brand? selectedBrand;
 
@@ -50,7 +54,7 @@ class _CreateCarPageState extends State<CreateCarPage> {
       Car car = Car(
           model: model.value.text,
           year: int.parse(year.value.text),
-          fuelType: fuelType.value.text,
+          fuelType: selectedFuelType!,
           price: double.parse(price.value.text),
           description: description.value.text,
           brand: selectedBrand!,

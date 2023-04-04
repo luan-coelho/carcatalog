@@ -1,11 +1,12 @@
 import 'package:carshop/models/brand.dart';
 import 'package:carshop/models/category.dart';
+import 'package:carshop/models/fueltype.dart';
 
 class Car {
   late int id;
   String model;
   int year;
-  String fuelType;
+  FuelType fuelType;
   double price;
   String description;
   Brand brand;
@@ -36,7 +37,7 @@ class Car {
       json['id'],
       model: json['model'],
       year: json['year'],
-      fuelType: json['fuelType'],
+      fuelType: FuelType.fromJson(json['fuelType']),
       price: json['price'].toDouble(),
       description: json['description'],
       brand: Brand.fromJson(json['brand']),
@@ -48,7 +49,7 @@ class Car {
     return {
       'model': model,
       'year': year,
-      'fuelType': fuelType,
+      'fuelType': fuelType.toMap(),
       'price': price,
       'description': description,
       'brand': brand.toMap(),

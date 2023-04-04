@@ -20,6 +20,39 @@ class CreateCarPage extends StatefulWidget {
 }
 
 class _CreateCarPageState extends State<CreateCarPage> {
+  final form = GlobalKey<FormState>();
+
+  void submitForm() {
+    bool? validate = form.currentState?.validate();
+    if (!validate!) {
+      return;
+    }
+
+    Car car = Car(
+        model: model.value.text,
+        year: int.parse(year.value.text),
+        fuelType: selectedFuelType!,
+        price: double.parse(price.value.text),
+        description: description.value.text,
+        brand: selectedBrand!,
+        category: selectedCategory!);
+
+    CarService().create(car).then((value) {
+      if (value) {
+        final snackBar = SnackBar(
+          content: const Text('Carro cadastrado com sucesso!'),
+          action: SnackBarAction(
+            textColor: Colors.green,
+            onPressed: () {},
+            label: '',
+          ),
+        );
+        Navigator.popAndPushNamed(context, AppRoutes.cars);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    });
+  }
+
   late Future<List<FuelType>> futureFuelType;
   FuelType? selectedFuelType;
 
@@ -44,39 +77,6 @@ class _CreateCarPageState extends State<CreateCarPage> {
 
   @override
   Widget build(BuildContext context) {
-    final form = GlobalKey<FormState>();
-
-    void submitForm() {
-      bool? validate = form.currentState?.validate();
-      if (!validate!) {
-        return;
-      }
-
-      Car car = Car(
-          model: model.value.text,
-          year: int.parse(year.value.text),
-          fuelType: selectedFuelType!,
-          price: double.parse(price.value.text),
-          description: description.value.text,
-          brand: selectedBrand!,
-          category: selectedCategory!);
-
-      CarService().create(car).then((value) {
-        if (value) {
-          final snackBar = SnackBar(
-            content: const Text('Carro cadastrado com sucesso!'),
-            action: SnackBarAction(
-              textColor: Colors.green,
-              onPressed: () {},
-              label: '',
-            ),
-          );
-          Navigator.popAndPushNamed(context, AppRoutes.cars);
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
-      });
-    }
-
     return Scaffold(
         appBar: AppBar(
           title: const Text('Cadastrar carro'),

@@ -41,4 +41,16 @@ class CarService {
     }
     return false;
   }
+
+  Future<bool> deleteById(int id) async {
+    final response = await http.delete(Uri.parse("$_baseUrl/cars/$id"),
+        headers: {'Content-Type': 'application/json'});
+
+    if (response.statusCode == 200 ||
+        response.statusCode == 201 ||
+        response.statusCode == 204) {
+      return true;
+    }
+    return false;
+  }
 }

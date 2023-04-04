@@ -24,7 +24,10 @@ class IndexCarPage extends StatelessWidget {
           } else {
             List<Car> cars = snapshot.data!;
             return ListView.separated(
-                itemBuilder: (BuildContext context, int index) {
+                itemBuilder: (
+                  BuildContext context,
+                  int index,
+                ) {
                   String model = cars[index].model;
                   String brand = cars[index].brand.name;
 
@@ -35,10 +38,8 @@ class IndexCarPage extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green[800]),
                       onPressed: () {
-                        int carId = cars[index].brand.id;
-                        print(carId);
-                        Navigator.pushNamed(
-                            context, AppRoutes.showCar,
+                        int carId = cars[index].id;
+                        Navigator.pushNamed(context, AppRoutes.showCar,
                             arguments: {"id": carId});
                       },
                       child: const Text("Visualizar"),
@@ -52,6 +53,7 @@ class IndexCarPage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
         onPressed: () {
           Navigator.pushNamed(context, AppRoutes.createCar);
         },

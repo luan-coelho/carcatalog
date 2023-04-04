@@ -8,6 +8,7 @@ import 'package:carshop/routes.dart';
 import 'package:carshop/services/brand_service.dart';
 import 'package:carshop/services/car_service.dart';
 import 'package:carshop/services/category_service.dart';
+import 'package:carshop/services/fueltype_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,7 +21,7 @@ class CreateCarPage extends StatefulWidget {
 
 class _CreateCarPageState extends State<CreateCarPage> {
   late Future<List<FuelType>> futureFuelType;
-  Brand? selectedFuelType;
+  FuelType? selectedFuelType;
 
   late Future<List<Brand>> futureBrands;
   Brand? selectedBrand;
@@ -30,13 +31,13 @@ class _CreateCarPageState extends State<CreateCarPage> {
 
   final model = TextEditingController();
   final year = TextEditingController();
-  final fuelType = TextEditingController();
   final price = TextEditingController();
   final description = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    futureFuelType = FuelTypeService().getAll();
     futureBrands = BrandService().getAll();
     futureCategories = CategoryService().getAll();
   }
@@ -231,6 +232,53 @@ class _CreateCarPageState extends State<CreateCarPage> {
                             );
                           }
                         }),
+                    FutureBuilder<List<FuelType>>(
+                        future: futureFuelType,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return const Center(
+                                child: Text('Erro ao buscar dados'));
+                          } else {
+                            List<FuelType> fuelTypes = snapshot.data!;
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: DropdownButtonFormField<FuelType>(
+                                value: selectedFuelType,
+                                hint: const Text(
+                                    'Selecione um tipo de combustível'),
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  prefixIcon: Icon(Icons.category),
+                                ),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Informe um tipo de combustível';
+                                  }
+                                  return null;
+                                },
+                                isExpanded: true,
+                                elevation: 24,
+                                onChanged: (FuelType? value) {
+                                  setState(() {
+                                    selectedFuelType = value!;
+                                  });
+                                },
+                                items: fuelTypes
+                                    .map<DropdownMenuItem<FuelType>>(
+                                        (FuelType value) {
+                                      return DropdownMenuItem<FuelType>(
+                                        value: value,
+                                        child: Text(value.name),
+                                      );
+                                    }).toList(),
+                              ),
+                            );
+                          }
+                        }),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: TextFormField(
@@ -247,23 +295,6 @@ class _CreateCarPageState extends State<CreateCarPage> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Informe o preço';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: TextFormField(
-                        controller: fuelType,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Tipo combustível',
-                          prefixIcon: Icon(Icons.local_gas_station),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Informe o tipo de combustível';
                           }
                           return null;
                         },

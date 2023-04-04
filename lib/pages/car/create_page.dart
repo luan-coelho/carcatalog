@@ -89,6 +89,10 @@ class _CreateCarPageState extends State<CreateCarPage> {
                 child: Column(
                   children: [
                     Padding(
+                      padding: const EdgeInsets.only(top: 24, bottom: 30),
+                      child: Image.asset("images/car2.png", width: 200),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: TextFormField(
                         controller: model,
@@ -270,11 +274,11 @@ class _CreateCarPageState extends State<CreateCarPage> {
                                 items: fuelTypes
                                     .map<DropdownMenuItem<FuelType>>(
                                         (FuelType value) {
-                                      return DropdownMenuItem<FuelType>(
-                                        value: value,
-                                        child: Text(value.name),
-                                      );
-                                    }).toList(),
+                                  return DropdownMenuItem<FuelType>(
+                                    value: value,
+                                    child: Text(value.name),
+                                  );
+                                }).toList(),
                               ),
                             );
                           }

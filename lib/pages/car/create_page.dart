@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:carshop/models/brand.dart';
 import 'package:carshop/models/car.dart';
 import 'package:carshop/models/category.dart';
+import 'package:carshop/routes.dart';
 import 'package:carshop/services/brand_service.dart';
 import 'package:carshop/services/car_service.dart';
 import 'package:carshop/services/category_service.dart';
@@ -40,10 +41,10 @@ class _CreateCarPageState extends State<CreateCarPage> {
   Widget build(BuildContext context) {
     final form = GlobalKey<FormState>();
 
-    bool submitForm() {
+    void submitForm() {
       bool? validate = form.currentState?.validate();
       if (!validate!) {
-        return false;
+        return;
       }
 
       Car car = Car(
@@ -61,23 +62,19 @@ class _CreateCarPageState extends State<CreateCarPage> {
             content: const Text('Carro cadastrado com sucesso!'),
             action: SnackBarAction(
               textColor: Colors.green,
-              label: 'OK',
               onPressed: () {},
+              label: '',
             ),
           );
-          Navigator.pop(context);
+          Navigator.popAndPushNamed(context, AppRoutes.cars);
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          return true;
-        } else {
-          return false;
         }
       });
-      return false;
     }
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Cadastrar'),
+          title: const Text('Cadastrar carro'),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -154,42 +151,33 @@ class _CreateCarPageState extends State<CreateCarPage> {
                                 child: Text('Erro ao buscar dados'));
                           } else {
                             List<Brand> brands = snapshot.data!;
-                            return Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                    top: BorderSide(color: Colors.black54),
-                                    bottom: BorderSide(color: Colors.black54),
-                                    left: BorderSide(color: Colors.black54),
-                                    right: BorderSide(color: Colors.black54)),
+                            return DropdownButtonFormField<Brand>(
+                              value: selectedBrand,
+                              hint: const Text('Selecione uma marca'),
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.build_circle),
                               ),
-                              child: Center(
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<Brand>(
-                                    value: selectedBrand,
-                                    hint: const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text('Selecione uma marca'),
-                                    ),
-                                    isExpanded: true,
-                                    elevation: 24,
-                                    onChanged: (Brand? value) {
-                                      setState(() {
-                                        selectedBrand = value!;
-                                      });
-                                    },
-                                    items: brands.map<DropdownMenuItem<Brand>>(
-                                        (Brand value) {
-                                      return DropdownMenuItem<Brand>(
-                                        value: value,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: Text(value.name),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Informe a marca';
+                                }
+                                return null;
+                              },
+                              isExpanded: true,
+                              elevation: 24,
+                              onChanged: (Brand? value) {
+                                setState(() {
+                                  selectedBrand = value!;
+                                });
+                              },
+                              items: brands
+                                  .map<DropdownMenuItem<Brand>>((Brand value) {
+                                return DropdownMenuItem<Brand>(
+                                  value: value,
+                                  child: Text(value.name),
+                                );
+                              }).toList(),
                             );
                           }
                         }),
@@ -207,43 +195,34 @@ class _CreateCarPageState extends State<CreateCarPage> {
                             List<Category> categories = snapshot.data!;
                             return Padding(
                               padding: const EdgeInsets.only(top: 10),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                      top: BorderSide(color: Colors.black54),
-                                      bottom: BorderSide(color: Colors.black54),
-                                      left: BorderSide(color: Colors.black54),
-                                      right: BorderSide(color: Colors.black54)),
+                              child: DropdownButtonFormField<Category>(
+                                value: selectedCategory,
+                                hint: const Text('Selecione uma categoria'),
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  prefixIcon: Icon(Icons.category),
                                 ),
-                                child: Center(
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton<Category>(
-                                      value: selectedCategory,
-                                      hint: const Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text('Selecione uma categoria'),
-                                      ),
-                                      isExpanded: true,
-                                      elevation: 24,
-                                      onChanged: (Category? value) {
-                                        setState(() {
-                                          selectedCategory = value!;
-                                        });
-                                      },
-                                      items: categories
-                                          .map<DropdownMenuItem<Category>>(
-                                              (Category value) {
-                                        return DropdownMenuItem<Category>(
-                                          value: value,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: Text(value.name),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Informe a categoria';
+                                  }
+                                  return null;
+                                },
+                                isExpanded: true,
+                                elevation: 24,
+                                onChanged: (Category? value) {
+                                  setState(() {
+                                    selectedCategory = value!;
+                                  });
+                                },
+                                items: categories
+                                    .map<DropdownMenuItem<Category>>(
+                                        (Category value) {
+                                  return DropdownMenuItem<Category>(
+                                    value: value,
+                                    child: Text(value.name),
+                                  );
+                                }).toList(),
                               ),
                             );
                           }
@@ -252,6 +231,10 @@ class _CreateCarPageState extends State<CreateCarPage> {
                       padding: const EdgeInsets.only(top: 10),
                       child: TextFormField(
                         controller: price,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Preço',
@@ -296,7 +279,7 @@ class _CreateCarPageState extends State<CreateCarPage> {
                         ),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Informe o preço';
+                            return 'Informe a descrição';
                           }
                           return null;
                         },
@@ -304,15 +287,17 @@ class _CreateCarPageState extends State<CreateCarPage> {
                     ),
                     Container(
                       alignment: Alignment.bottomCenter,
-                      margin: const EdgeInsets.only(top: 24),
+                      margin: const EdgeInsets.only(top: 12),
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green[800]),
                         onPressed: () => submitForm(),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Icon(Icons.check),
                             Padding(
-                              padding: EdgeInsets.all(12),
+                              padding: EdgeInsets.all(8),
                               child: Text(
                                 'Cadastrar',
                                 style: TextStyle(fontSize: 20),

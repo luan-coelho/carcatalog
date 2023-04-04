@@ -23,43 +23,31 @@ class IndexCarPage extends StatelessWidget {
             return const Center(child: Text('Erro ao buscar dados'));
           } else {
             List<Car> cars = snapshot.data!;
-            return ListView.builder(
-              itemCount: cars.length,
-              itemBuilder: (context, index) {
-                Car car = cars[index];
-                return Card(
-                    margin: const EdgeInsets.only(
-                        top: 15.0, left: 12.0, right: 12.0),
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          ListTile(
-                            leading: const Icon(Icons.car_crash),
-                            title: Text(car.model),
-                            subtitle: Text(car.brand.name),
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(car.price.toString()),
-                                const SizedBox(width: 8),
-                              ]),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                TextButton(
-                                  child: const Text('VISUALIZAR'),
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, AppRoutes.showCar,
-                                        arguments: {"id": car.id});
-                                  },
-                                ),
-                                const SizedBox(width: 8),
-                              ])
-                        ]));
-              },
-            );
+            return ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  String model = cars[index].model;
+                  String brand = cars[index].brand.name;
+
+                  return ListTile(
+                    leading: Image.asset("images/car.png", width: 30),
+                    title: Text("$brand $model"),
+                    trailing: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green[800]),
+                      onPressed: () {
+                        int carId = cars[index].brand.id;
+                        print(carId);
+                        Navigator.pushNamed(
+                            context, AppRoutes.showCar,
+                            arguments: {"id": carId});
+                      },
+                      child: const Text("Visualizar"),
+                    ),
+                  );
+                },
+                padding: const EdgeInsets.all(16),
+                separatorBuilder: (_, __) => const Divider(),
+                itemCount: cars.length);
           }
         },
       ),

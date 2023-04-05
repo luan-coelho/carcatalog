@@ -1,28 +1,30 @@
 @startuml
 
 class Car {
-  -id: int
-  -make: String
-  -model: String
-  -year: int
-  -fuelType: String
-  -color: String
-  -mileage: double
-  -price: double
-  -description: String
+    -id: int
+    -model: String
+    -year: int
+    -price: double
+    -description: String
 }
 
 class Brand {
-   -id: int
-   -name: String
+    -id: int
+    -name: String
  }
 
- class Category {
-   -id: int
-   -name: String
- }
+class Category {
+    -id: int
+    -name: String
+}
+
+class FuelType {
+    -id: int
+    -name: String
+  }
 
 Car "0..*" o-- "1" Brand : belongs to
 Car "0..*" o-- "1" Category : belongs to
+Car "0..*" o-- "1" FuelType : belongs to
 
 @enduml

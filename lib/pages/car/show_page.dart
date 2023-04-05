@@ -167,10 +167,10 @@ class ShowCarPage extends StatelessWidget {
                               children: const [
                                 Icon(Icons.edit),
                                 Padding(
-                                  padding: EdgeInsets.all(8),
+                                  padding: EdgeInsets.all(4),
                                   child: Text(
                                     'Editar',
-                                    style: TextStyle(fontSize: 20),
+                                    style: TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ],
@@ -205,10 +205,10 @@ class ShowCarPage extends StatelessWidget {
                               children: const [
                                 Icon(Icons.delete),
                                 Padding(
-                                  padding: EdgeInsets.all(8),
+                                  padding: EdgeInsets.all(4),
                                   child: Text(
                                     'Deletar',
-                                    style: TextStyle(fontSize: 20),
+                                    style: TextStyle(fontSize: 16),
                                   ),
                                 ),
                               ],

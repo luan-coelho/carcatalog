@@ -42,6 +42,19 @@ class CarService {
     return false;
   }
 
+  Future<bool> update(int carId, Car car) async {
+    Map<String, dynamic> carMap = car.toMap();
+    String json = jsonEncode(carMap);
+
+    final response = await http.put(Uri.parse("$_baseUrl/cars/$carId"),
+        body: json, headers: {'Content-Type': 'application/json'});
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    }
+    return false;
+  }
+
   Future<bool> deleteById(int id) async {
     final response = await http.delete(Uri.parse("$_baseUrl/cars/$id"),
         headers: {'Content-Type': 'application/json'});

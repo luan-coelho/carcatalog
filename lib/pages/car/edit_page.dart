@@ -13,31 +13,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class EditCarPage extends StatefulWidget {
-  const EditCarPage({super.key});
+  const EditCarPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _EditCarPageState();
 }
 
 class _EditCarPageState extends State<EditCarPage> {
-  final form = GlobalKey<FormState>();
+  final _form = GlobalKey<FormState>();
+  bool? updated = false;
 
-  void submitForm() {
-    bool? validate = form.currentState?.validate();
+  TextEditingController? _videoId;
+  TextEditingController? _model;
+  TextEditingController? _year;
+  TextEditingController? _price;
+  TextEditingController? _description;
+
+  Future<Car>? _carResponse;
+
+  Future<List<FuelType>>? _futureFuelType;
+  FuelType? _selectedFuelType;
+
+  Future<List<Brand>>? _futureBrands;
+  Brand? _selectedBrand;
+
+  Future<List<Category>>? _futureCategories;
+  Category? _selectedCategory;
+
+  void submitForm(int id) {
+    bool? validate = _form.currentState?.validate();
     if (!validate!) {
       return;
     }
 
     Car car = Car(
-        model: model.value.text,
-        year: int.parse(year.value.text),
-        fuelType: selectedFuelType!,
-        price: double.parse(price.value.text),
-        description: description.value.text,
-        brand: selectedBrand!,
-        category: selectedCategory!);
+        model: _model!.value.text,
+        year: int.parse(_year!.value.text),
+        fuelType: _selectedFuelType!,
+        price: double.parse(_price!.value.text),
+        description: _description!.value.text,
+        brand: _selectedBrand!,
+        category: _selectedCategory!);
 
-    CarService().create(car).then((value) {
+    CarService().update(id, car).then((value) {
       if (value) {
         final snackBar = SnackBar(
           content: const Text('Carro editado com sucesso!'),
@@ -53,53 +71,65 @@ class _EditCarPageState extends State<EditCarPage> {
     });
   }
 
-  late Future<List<FuelType>> futureFuelType;
-  FuelType? selectedFuelType;
+  Future<void> _loadData() async {
+    if (!updated!) {
+      final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
+      final int id = arguments['id'];
 
-  late Future<List<Brand>> futureBrands;
-  Brand? selectedBrand;
-
-  late Future<List<Category>> futureCategories;
-  Category? selectedCategory;
-
-  final model = TextEditingController();
-  final year = TextEditingController();
-  final price = TextEditingController();
-  final description = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    futureFuelType = FuelTypeService().getAll();
-    futureBrands = BrandService().getAll();
-    futureCategories = CategoryService().getAll();
+      _carResponse = CarService().getById(id);
+      _futureFuelType = FuelTypeService().getAll();
+      _futureBrands = BrandService().getAll();
+      _futureCategories = CategoryService().getAll();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
-    final int id = arguments['id'];
-
-    Future<Car> carResponse = CarService().getById(id);
-
     return Scaffold(
         appBar: AppBar(
           title: const Text('Editar carro'),
         ),
-        body: FutureBuilder<Car>(
-            future: carResponse,
-            builder: (context, snapshot) {
+        body: FutureBuilder<List<dynamic>>(
+            future: Future.wait([
+              _loadData(),
+              _carResponse!,
+              _futureFuelType!,
+              _futureBrands!,
+              _futureCategories!,
+            ]),
+            builder:
+                (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
+              } else if (snapshot.hasError || snapshot.data == null) {
                 return const Center(child: Text('Erro ao buscar dados'));
               } else {
-                Car car = snapshot.data!;
+                Car car = snapshot.data![1] as Car;
+
+                List<FuelType> fuelTypes = snapshot.data![2] as List<FuelType>;
+                List<Brand> brands = snapshot.data![3] as List<Brand>;
+                List<Category> categories = snapshot.data![4] as List<Category>;
+
+                if (!updated!) {
+                  _model = TextEditingController(text: car.model);
+                  _year = TextEditingController(text: car.year.toString());
+                  _price = TextEditingController(text: car.price.toString());
+                  _description = TextEditingController(text: car.description);
+
+                  _selectedFuelType = fuelTypes
+                      .firstWhere((element) => element.id == car.fuelType.id);
+                  _selectedBrand = brands
+                      .firstWhere((element) => element.id == car.brand.id);
+                  _selectedCategory = categories
+                      .firstWhere((element) => element.id == car.category.id);
+                  updated = true;
+                }
+
                 return SingleChildScrollView(
                   child: Padding(
                       padding: const EdgeInsets.all(24),
                       child: Form(
-                        key: form,
+                        key: _form,
                         child: Column(
                           children: [
                             Padding(
@@ -110,7 +140,7 @@ class _EditCarPageState extends State<EditCarPage> {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: TextFormField(
-                                controller: model,
+                                controller: _model,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Modelo',
@@ -127,7 +157,7 @@ class _EditCarPageState extends State<EditCarPage> {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: TextFormField(
-                                controller: year,
+                                controller: _year,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly
@@ -164,147 +194,95 @@ class _EditCarPageState extends State<EditCarPage> {
                                 },
                               ),
                             ),
-                            FutureBuilder<List<Brand>>(
-                                future: futureBrands,
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Center(
-                                        child: CircularProgressIndicator());
-                                  } else if (snapshot.hasError) {
-                                    return const Center(
-                                        child: Text('Erro ao buscar dados'));
-                                  } else {
-                                    List<Brand> brands = snapshot.data!;
-                                    return DropdownButtonFormField<Brand>(
-                                      value: selectedBrand,
-                                      hint: const Text('Selecione uma marca'),
-                                      decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        prefixIcon: Icon(Icons.build_circle),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null) {
-                                          return 'Informe a marca';
-                                        }
-                                        return null;
-                                      },
-                                      isExpanded: true,
-                                      elevation: 24,
-                                      onChanged: (Brand? value) {
-                                        setState(() {
-                                          selectedBrand = value!;
-                                        });
-                                      },
-                                      items: brands
-                                          .map<DropdownMenuItem<Brand>>(
-                                              (Brand value) {
-                                        return DropdownMenuItem<Brand>(
-                                          value: value,
-                                          child: Text(value.name),
-                                        );
-                                      }).toList(),
-                                    );
-                                  }
-                                }),
-                            FutureBuilder<List<Category>>(
-                                future: futureCategories,
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Center(
-                                        child: CircularProgressIndicator());
-                                  } else if (snapshot.hasError) {
-                                    return const Center(
-                                        child: Text('Erro ao buscar dados'));
-                                  } else {
-                                    List<Category> categories = snapshot.data!;
-                                    return Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: DropdownButtonFormField<Category>(
-                                        value: selectedCategory,
-                                        hint: const Text(
-                                            'Selecione uma categoria'),
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          prefixIcon: Icon(Icons.category),
-                                        ),
-                                        validator: (value) {
-                                          if (value == null) {
-                                            return 'Informe a categoria';
-                                          }
-                                          return null;
-                                        },
-                                        isExpanded: true,
-                                        elevation: 24,
-                                        onChanged: (Category? value) {
-                                          setState(() {
-                                            selectedCategory = value!;
-                                          });
-                                        },
-                                        items: categories
-                                            .map<DropdownMenuItem<Category>>(
-                                                (Category value) {
-                                          return DropdownMenuItem<Category>(
-                                            value: value,
-                                            child: Text(value.name),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    );
-                                  }
-                                }),
-                            FutureBuilder<List<FuelType>>(
-                                future: futureFuelType,
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Center(
-                                        child: CircularProgressIndicator());
-                                  } else if (snapshot.hasError) {
-                                    return const Center(
-                                        child: Text('Erro ao buscar dados'));
-                                  } else {
-                                    List<FuelType> fuelTypes = snapshot.data!;
-                                    return Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: DropdownButtonFormField<FuelType>(
-                                        value: selectedFuelType,
-                                        hint: const Text(
-                                            'Selecione um tipo de combustível'),
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          prefixIcon: Icon(Icons.category),
-                                        ),
-                                        validator: (value) {
-                                          if (value == null) {
-                                            return 'Informe um tipo de combustível';
-                                          }
-                                          return null;
-                                        },
-                                        isExpanded: true,
-                                        elevation: 24,
-                                        onChanged: (FuelType? value) {
-                                          setState(() {
-                                            selectedFuelType = value!;
-                                          });
-                                        },
-                                        items: fuelTypes
-                                            .map<DropdownMenuItem<FuelType>>(
-                                                (FuelType value) {
-                                          return DropdownMenuItem<FuelType>(
-                                            value: value,
-                                            child: Text(value.name),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    );
-                                  }
-                                }),
+                            DropdownButtonFormField<Brand>(
+                              value: _selectedBrand,
+                              hint: const Text('Selecione uma marca'),
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.build_circle),
+                              ),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Informe a marca';
+                                }
+                                return null;
+                              },
+                              isExpanded: true,
+                              elevation: 24,
+                              onChanged: (Brand? value) {
+                                setState(() {
+                                  _selectedBrand = value!;
+                                });
+                              },
+                              items: brands
+                                  .map<DropdownMenuItem<Brand>>((Brand value) {
+                                return DropdownMenuItem<Brand>(
+                                  value: value,
+                                  child: Text(value.name),
+                                );
+                              }).toList(),
+                            ),
+                            DropdownButtonFormField<Category>(
+                              value: _selectedCategory,
+                              hint: const Text('Selecione uma categoria'),
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.category),
+                              ),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Informe a categoria';
+                                }
+                                return null;
+                              },
+                              isExpanded: true,
+                              elevation: 24,
+                              onChanged: (Category? value) {
+                                setState(() {
+                                  _selectedCategory = value!;
+                                });
+                              },
+                              items: categories.map<DropdownMenuItem<Category>>(
+                                  (Category value) {
+                                return DropdownMenuItem<Category>(
+                                  value: value,
+                                  child: Text(value.name),
+                                );
+                              }).toList(),
+                            ),
+                            DropdownButtonFormField<FuelType>(
+                              value: _selectedFuelType,
+                              hint: const Text(
+                                  'Selecione um tipo de combustível'),
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.category),
+                              ),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Informe um tipo de combustível';
+                                }
+                                return null;
+                              },
+                              isExpanded: true,
+                              elevation: 24,
+                              onChanged: (FuelType? value) {
+                                setState(() {
+                                  _selectedFuelType = value!;
+                                });
+                              },
+                              items: fuelTypes.map<DropdownMenuItem<FuelType>>(
+                                  (FuelType value) {
+                                return DropdownMenuItem<FuelType>(
+                                  value: value,
+                                  child: Text(value.name),
+                                );
+                              }).toList(),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: TextFormField(
-                                controller: price,
+                                controller: _price,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly
@@ -325,7 +303,7 @@ class _EditCarPageState extends State<EditCarPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: TextFormField(
-                                controller: description,
+                                controller: _description,
                                 maxLines: null,
                                 maxLength: 255,
                                 keyboardType: TextInputType.multiline,
@@ -348,7 +326,7 @@ class _EditCarPageState extends State<EditCarPage> {
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.green[800]),
-                                onPressed: () => submitForm(),
+                                onPressed: () => submitForm(car.id),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: const [

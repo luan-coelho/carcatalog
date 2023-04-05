@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Car Shop',
+      title: 'Catálogo de Carros',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.light,
-      initialRoute: '/',
+      initialRoute: '/cars',
       routes: AppRoutes.routes,
     );
   }

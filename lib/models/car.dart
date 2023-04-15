@@ -1,6 +1,6 @@
-import 'package:carshop/models/brand.dart';
-import 'package:carshop/models/category.dart';
-import 'package:carshop/models/fueltype.dart';
+import 'package:car_catalog_client/models/brand.dart';
+import 'package:car_catalog_client/models/category.dart';
+import 'package:car_catalog_client/models/fueltype.dart';
 
 class Car {
   late int id;

@@ -1,4 +1,4 @@
-name: carshop
+name: car_catalog_client
 description: Projeto para A1 de Dispositivos Móveis I
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

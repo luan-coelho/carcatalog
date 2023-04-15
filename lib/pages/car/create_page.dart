@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:carshop/models/brand.dart';
-import 'package:carshop/models/car.dart';
-import 'package:carshop/models/category.dart';
-import 'package:carshop/models/fueltype.dart';
-import 'package:carshop/routes.dart';
-import 'package:carshop/services/brand_service.dart';
-import 'package:carshop/services/car_service.dart';
-import 'package:carshop/services/category_service.dart';
-import 'package:carshop/services/fueltype_service.dart';
+import 'package:car_catalog_client/models/brand.dart';
+import 'package:car_catalog_client/models/car.dart';
+import 'package:car_catalog_client/models/category.dart';
+import 'package:car_catalog_client/models/fueltype.dart';
+import 'package:car_catalog_client/routes.dart';
+import 'package:car_catalog_client/services/brand_service.dart';
+import 'package:car_catalog_client/services/car_service.dart';
+import 'package:car_catalog_client/services/category_service.dart';
+import 'package:car_catalog_client/services/fueltype_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

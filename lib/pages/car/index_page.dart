@@ -1,6 +1,6 @@
-import 'package:carshop/models/car.dart';
-import 'package:carshop/routes.dart';
-import 'package:carshop/services/car_service.dart';
+import 'package:car_catalog_client/models/car.dart';
+import 'package:car_catalog_client/routes.dart';
+import 'package:car_catalog_client/services/car_service.dart';
 import 'package:flutter/material.dart';
 
 class IndexCarPage extends StatelessWidget {

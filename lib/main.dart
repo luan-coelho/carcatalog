@@ -1,4 +1,4 @@
-import 'package:carshop/routes.dart';
+import 'package:car_catalog_client/routes.dart';
 import 'package:flutter/material.dart';
 
 void main() {

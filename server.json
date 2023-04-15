@@ -1,0 +1,61 @@
+{
+  "cars": [
+    {
+      "id": 1,
+      "model": "Corolla",
+      "year": 2020,
+      "fuelType": {
+        "id": 1,
+        "name": "Diesel"
+      },
+      "price": 18000.0,
+      "description": "Well-maintained used car.",
+      "brand": {
+        "id": 1,
+        "name": "Toyota"
+      },
+      "category": {
+        "id": 1,
+        "name": "Sedan"
+      }
+    },
+    {
+      "id": 2,
+      "model": "Civic",
+      "year": 2019,
+      "fuelType": {
+        "id": 2,
+        "name": "Híbrido"
+      },
+      "price": 17000.0,
+      "description": "Low mileage, great condition.",
+      "brand": {
+        "id": 2,
+        "name": "Honda"
+      },
+      "category": {
+        "id": 2,
+        "name": "SUV"
+      }
+    },
+    {
+      "id": 3,
+      "model": "Model 3",
+      "year": 2021,
+      "fuelType": {
+        "id": 3,
+        "name": "Flex"
+      },
+      "price": 45000.0,
+      "description": "Like new, electric vehicle.",
+      "brand": {
+        "id": 3,
+        "name": "Tesla"
+      },
+      "category": {
+        "id": 3,
+        "name": "Hatchback"
+      }
+    }
+  ]
+}

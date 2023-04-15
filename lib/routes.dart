@@ -1,7 +1,7 @@
-import 'package:carshop/pages/car/create_page.dart';
-import 'package:carshop/pages/car/edit_page.dart';
-import 'package:carshop/pages/car/index_page.dart';
-import 'package:carshop/pages/car/show_page.dart';
+import 'package:car_catalog_client/pages/car/create_page.dart';
+import 'package:car_catalog_client/pages/car/edit_page.dart';
+import 'package:car_catalog_client/pages/car/index_page.dart';
+import 'package:car_catalog_client/pages/car/show_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {

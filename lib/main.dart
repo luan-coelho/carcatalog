@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.light,
-      initialRoute: '/cars',
+      initialRoute: '/auth/login',
       routes: AppRoutes.routes,
     );
   }

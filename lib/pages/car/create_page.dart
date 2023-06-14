@@ -47,7 +47,7 @@ class _CreateCarPageState extends State<CreateCarPage> {
             label: '',
           ),
         );
-        Navigator.popAndPushNamed(context, AppRoutes.cars);
+        Navigator.pushReplacementNamed(context, AppRoutes.cars);
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     });
@@ -256,7 +256,7 @@ class _CreateCarPageState extends State<CreateCarPage> {
                                     'Selecione um tipo de combustível'),
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  prefixIcon: Icon(Icons.category),
+                                  prefixIcon: Icon(Icons.local_gas_station),
                                 ),
                                 validator: (value) {
                                   if (value == null) {

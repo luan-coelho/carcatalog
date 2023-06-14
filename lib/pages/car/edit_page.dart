@@ -65,7 +65,7 @@ class _EditCarPageState extends State<EditCarPage> {
             label: '',
           ),
         );
-        Navigator.popAndPushNamed(context, AppRoutes.cars);
+        Navigator.pushReplacementNamed(context, AppRoutes.cars);
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     });

@@ -19,19 +19,21 @@ class LoginPage extends StatelessWidget {
         return;
       }
 
-      if (authService.validateLogin(login.text, password.text)) {
-        Navigator.pushReplacementNamed(context, AppRoutes.cars);
-      } else {
-        final snackBar = SnackBar(
-          content: const Text('Login ou senha inválidos'),
-          action: SnackBarAction(
-            textColor: Colors.green,
-            onPressed: () {},
-            label: '',
-          ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
+      authService.validateLogin(login.text, password.text).then((value) {
+        if (value) {
+          Navigator.pushReplacementNamed(context, AppRoutes.cars);
+        } else {
+          final snackBar = SnackBar(
+            content: const Text('Login ou senha inválidos'),
+            action: SnackBarAction(
+              textColor: Colors.green,
+              onPressed: () {},
+              label: '',
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      });
     }
 
     return Scaffold(
@@ -41,8 +43,19 @@ class LoginPage extends StatelessWidget {
         key: form,
         child: Column(children: [
           Padding(
-            padding: const EdgeInsets.only(top: 24, bottom: 30),
-            child: Image.asset("images/carstore.png", width: 200),
+            padding: const EdgeInsets.only(top: 24),
+            child: Image.asset("images/login.png", width: 400),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 20),
+            child: Text(
+              'Seja bem-vindo',
+              style: TextStyle(
+                fontSize: 40, // Tamanho da fonte
+                fontWeight: FontWeight.bold, // Fonte em negrito
+                color: Colors.black, // Cor do texto
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10),

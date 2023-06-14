@@ -24,7 +24,8 @@ class ShowCarPage extends StatelessWidget {
               label: '',
             ),
           );
-          Navigator.pushReplacementNamed(context, AppRoutes.cars);
+          Navigator.pushNamedAndRemoveUntil(
+              context, AppRoutes.cars, (route) => false);
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       });

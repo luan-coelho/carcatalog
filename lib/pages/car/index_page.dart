@@ -23,32 +23,42 @@ class IndexCarPage extends StatelessWidget {
             return const Center(child: Text('Erro ao buscar dados'));
           } else {
             List<Car> cars = snapshot.data!;
-            return ListView.separated(
-                itemBuilder: (
-                  BuildContext context,
-                  int index,
-                ) {
-                  String model = cars[index].model;
-                  String brand = cars[index].brand.name;
+            if (cars.isEmpty) {
+              return const Center(child: Text(
+                  'Nenhum carro cadastrado',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  )));
+            } else {
+              return ListView.separated(
+                  itemBuilder: (
+                    BuildContext context,
+                    int index,
+                  ) {
+                    String model = cars[index].model;
+                    String brand = cars[index].brand.name;
 
-                  return ListTile(
-                    leading: Image.asset("images/car.png", width: 30),
-                    title: Text("$brand $model"),
-                    trailing: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue[800]),
-                      onPressed: () {
-                        int carId = cars[index].id;
-                        Navigator.pushNamed(context, AppRoutes.showCar,
-                            arguments: {"id": carId});
-                      },
-                      child: const Text("Detalhes"),
-                    ),
-                  );
-                },
-                padding: const EdgeInsets.all(16),
-                separatorBuilder: (_, __) => const Divider(),
-                itemCount: cars.length);
+                    return ListTile(
+                      leading: Image.asset("images/car.png", width: 30),
+                      title: Text("$brand $model"),
+                      trailing: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[800]),
+                        onPressed: () {
+                          int carId = cars[index].id;
+                          Navigator.pushNamed(context, AppRoutes.showCar,
+                              arguments: {"id": carId});
+                        },
+                        child: const Text("Detalhes"),
+                      ),
+                    );
+                  },
+                  padding: const EdgeInsets.all(16),
+                  separatorBuilder: (_, __) => const Divider(),
+                  itemCount: cars.length);
+            }
           }
         },
       ),

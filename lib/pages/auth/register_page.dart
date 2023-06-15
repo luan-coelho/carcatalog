@@ -1,15 +1,17 @@
+import 'package:car_catalog_client/dto/register_request.dart';
 import 'package:car_catalog_client/routes.dart';
 import 'package:car_catalog_client/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     AuthService authService = AuthService();
 
     final form = GlobalKey<FormState>();
+    final name = TextEditingController();
     final login = TextEditingController();
     final password = TextEditingController();
 
@@ -19,20 +21,23 @@ class LoginPage extends StatelessWidget {
         return;
       }
 
-      authService.validateLogin(login.text, password.text).then((value) {
+      RegisterRequest request =
+          RegisterRequest(name.text, login.text, password.text);
+      authService.register(request).then((value) {
+        String message = "Aconteceu algo inesperado. Tente mais tarde";
         if (value) {
-          Navigator.pushReplacementNamed(context, AppRoutes.cars);
-        } else {
-          final snackBar = SnackBar(
-            content: const Text('Login ou senha inválidos'),
-            action: SnackBarAction(
-              textColor: Colors.green,
-              onPressed: () {},
-              label: '',
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          Navigator.pushReplacementNamed(context, AppRoutes.login);
+          message = "Cadastrado realizado com sucesso. Faça seu login";
         }
+        final snackBar = SnackBar(
+          content: Text(message),
+          action: SnackBarAction(
+            textColor: Colors.green,
+            onPressed: () {},
+            label: '',
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       });
     }
 
@@ -47,15 +52,22 @@ class LoginPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 44),
               child: Image.asset("images/login.jpg", width: 200),
             ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 20),
-              child: Text(
-                'Seja bem-vindo',
-                style: TextStyle(
-                  fontSize: 40, // Tamanho da fonte
-                  fontWeight: FontWeight.bold, // Fonte em negrito
-                  color: Colors.black, // Cor do texto
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: TextFormField(
+                controller: name,
+                decoration: const InputDecoration(
+                  counterText: '',
+                  border: OutlineInputBorder(),
+                  labelText: 'Nome',
+                  prefixIcon: Icon(Icons.person),
                 ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Informe o nome';
+                  }
+                  return null;
+                },
               ),
             ),
             Padding(
@@ -65,8 +77,8 @@ class LoginPage extends StatelessWidget {
                 decoration: const InputDecoration(
                   counterText: '',
                   border: OutlineInputBorder(),
-                  labelText: 'Logar',
-                  prefixIcon: Icon(Icons.person),
+                  labelText: 'Login',
+                  prefixIcon: Icon(Icons.email),
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -107,11 +119,11 @@ class LoginPage extends StatelessWidget {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.login),
+                    Icon(Icons.app_registration),
                     Padding(
                       padding: EdgeInsets.all(16),
                       child: Text(
-                        'Logar',
+                        'Cadastrar',
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
@@ -125,16 +137,15 @@ class LoginPage extends StatelessWidget {
               child: ElevatedButton(
                 style:
                     ElevatedButton.styleFrom(backgroundColor: Colors.blue[500]),
-                onPressed: () =>
-                    Navigator.pushNamed(context, AppRoutes.register),
+                onPressed: () => Navigator.pushNamed(context, AppRoutes.login),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.app_registration),
+                    Icon(Icons.login),
                     Padding(
                       padding: EdgeInsets.all(16),
                       child: Text(
-                        'Cadastro',
+                        'Login',
                         style: TextStyle(fontSize: 20),
                       ),
                     ),

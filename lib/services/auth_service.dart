@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:car_catalog_client/config/global_config.dart';
+import 'package:car_catalog_client/dto/register_request.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
@@ -14,6 +15,20 @@ class AuthService {
         headers: {'Content-Type': 'application/json'});
 
     if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> register(RegisterRequest request) async {
+    String body = jsonEncode(request.toMap());
+
+    final response = await http.post(
+        Uri.parse("${GlobalConfig.apiBaseUrl}/auth/register"),
+        body: body,
+        headers: {'Content-Type': 'application/json'});
+
+    if (response.statusCode == 201) {
       return true;
     }
     return false;

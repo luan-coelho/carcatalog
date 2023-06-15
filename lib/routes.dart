@@ -1,4 +1,5 @@
 import 'package:car_catalog_client/pages/auth/login_page.dart';
+import 'package:car_catalog_client/pages/auth/register_page.dart';
 import 'package:car_catalog_client/pages/car/create_page.dart';
 import 'package:car_catalog_client/pages/car/edit_page.dart';
 import 'package:car_catalog_client/pages/car/index_page.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 
 class AppRoutes {
   static const String login = '/auth/login';
+  static const String register = '/auth/register';
   static const String cars = '/cars';
   static const String showCar = '/cars/show';
   static const String createCar = '/cars/create';
@@ -14,6 +16,7 @@ class AppRoutes {
 
   static final Map<String, WidgetBuilder> routes = {
     login: (BuildContext context) => const LoginPage(),
+    register: (BuildContext context) => const RegisterPage(),
     cars: (BuildContext context) => const IndexCarPage(),
     showCar: (BuildContext context) => const ShowCarPage(),
     createCar: (BuildContext context) => const CreateCarPage(),

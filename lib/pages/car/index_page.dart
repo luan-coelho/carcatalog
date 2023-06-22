@@ -13,6 +13,14 @@ class IndexCarPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Carros'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.redAccent,), // ícone de pincel para edição
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.login);
+            },
+          )
+        ],
       ),
       body: FutureBuilder<List<Car>>(
         future: cars,
@@ -24,13 +32,13 @@ class IndexCarPage extends StatelessWidget {
           } else {
             List<Car> cars = snapshot.data!;
             if (cars.isEmpty) {
-              return const Center(child: Text(
-                  'Nenhum carro cadastrado',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  )));
+              return const Center(
+                  child: Text('Nenhum carro cadastrado',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      )));
             } else {
               return ListView.separated(
                   itemBuilder: (

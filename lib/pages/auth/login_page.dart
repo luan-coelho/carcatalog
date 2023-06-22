@@ -21,7 +21,8 @@ class LoginPage extends StatelessWidget {
 
       authService.validateLogin(login.text, password.text).then((value) {
         if (value) {
-          Navigator.pushReplacementNamed(context, AppRoutes.cars);
+          Navigator.pushNamedAndRemoveUntil(
+              context, AppRoutes.cars, (route) => false);
         } else {
           final snackBar = SnackBar(
             content: const Text('Login ou senha inválidos'),

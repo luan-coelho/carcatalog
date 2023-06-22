@@ -20,8 +20,9 @@ class ShowCarPage extends StatelessWidget {
         if (value) {
           final snackBar = SnackBar(
             content: const Text('Carro deletado com sucesso!'),
+            backgroundColor: Colors.green,
             action: SnackBarAction(
-              textColor: Colors.green,
+              textColor: Colors.black,
               onPressed: () {},
               label: '',
             ),

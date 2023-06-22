@@ -31,8 +31,9 @@ class RegisterPage extends StatelessWidget {
         }
         final snackBar = SnackBar(
           content: Text(message),
+          backgroundColor: Colors.green,
           action: SnackBarAction(
-            textColor: Colors.green,
+            textColor: Colors.black,
             onPressed: () {},
             label: '',
           ),

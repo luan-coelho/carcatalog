@@ -77,7 +77,7 @@ class IndexCarPage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green[800],
+        backgroundColor: Colors.blue[800],
         onPressed: () {
           Navigator.pushNamed(context, AppRoutes.createCar);
         },

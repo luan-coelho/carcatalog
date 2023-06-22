@@ -26,8 +26,9 @@ class LoginPage extends StatelessWidget {
         } else {
           final snackBar = SnackBar(
             content: const Text('Login ou senha inválidos'),
+            backgroundColor: Colors.redAccent,
             action: SnackBarAction(
-              textColor: Colors.green,
+              textColor: Colors.black,
               onPressed: () {},
               label: '',
             ),

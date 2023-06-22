@@ -41,8 +41,9 @@ class _CreateCarPageState extends State<CreateCarPage> {
       if (value) {
         final snackBar = SnackBar(
           content: const Text('Carro cadastrado com sucesso!'),
+          backgroundColor: Colors.green,
           action: SnackBarAction(
-            textColor: Colors.green,
+            textColor: Colors.black,
             onPressed: () {},
             label: '',
           ),
@@ -332,9 +333,9 @@ class _CreateCarPageState extends State<CreateCarPage> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green[800]),
                         onPressed: () => submitForm(),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Icon(Icons.check),
                             Padding(
                               padding: EdgeInsets.all(8),

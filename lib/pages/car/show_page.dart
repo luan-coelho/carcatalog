@@ -3,6 +3,8 @@ import 'package:car_catalog_client/routes.dart';
 import 'package:car_catalog_client/services/car_service.dart';
 import 'package:flutter/material.dart';
 
+enum CrudAction { edit, delete }
+
 class ShowCarPage extends StatelessWidget {
   const ShowCarPage({super.key});
 
@@ -34,6 +36,40 @@ class ShowCarPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Detalhes'),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.edit), // ícone de pincel para edição
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.editCar,
+                    arguments: {"id": id});
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete), // ícone de lixeira para exclusão
+              onPressed: () {
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Confirmação'),
+                    content: const Text(
+                        'Voce tem certeza que deseja excluir este registro?'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => {
+                          Navigator.pop(context, 'Cancel'),
+                        },
+                        child: const Text('Cancelar'),
+                      ),
+                      TextButton(
+                        onPressed: () => handleDelete(id),
+                        child: const Text('Confirmar'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         body: SingleChildScrollView(
             child: Padding(
@@ -152,70 +188,6 @@ class ShowCarPage extends StatelessWidget {
                           initialValue: car.description,
                           readOnly: true,
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue[800]),
-                            onPressed: () {
-                              Navigator.pushNamed(context, AppRoutes.editCar,
-                                  arguments: {"id": id});
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Icon(Icons.edit),
-                                Padding(
-                                  padding: EdgeInsets.all(4),
-                                  child: Text(
-                                    'Editar',
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 10, height: 70),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red[800]),
-                            onPressed: () => showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text('Confirmaçao'),
-                                content: const Text(
-                                    'Voce tem certeza que deseja excluir este registro?'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () => {
-                                      Navigator.pop(context, 'Cancel'),
-                                    },
-                                    child: const Text('Cancelar'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () => handleDelete(id),
-                                    child: const Text('Confirmar'),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Icon(Icons.delete),
-                                Padding(
-                                  padding: EdgeInsets.all(4),
-                                  child: Text(
-                                    'Deletar',
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
                       ),
                     ],
                   );

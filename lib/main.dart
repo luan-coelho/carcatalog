@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Catálogo de Carros',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
+        fontFamily: 'Poppins',
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,

@@ -15,7 +15,11 @@ class IndexCarPage extends StatelessWidget {
         title: const Text('Carros'),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.logout, color: Colors.redAccent,), // ícone de pincel para edição
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.redAccent,
+            ),
+            // ícone de pincel para edição
             onPressed: () {
               Navigator.pushNamed(context, AppRoutes.login);
             },
@@ -47,10 +51,12 @@ class IndexCarPage extends StatelessWidget {
                   ) {
                     String model = cars[index].model;
                     String brand = cars[index].brand.name;
+                    String price = cars[index].price.toString();
 
                     return ListTile(
                       leading: Image.asset("images/car.png", width: 30),
                       title: Text("$brand $model"),
+                      subtitle: Text("R\$$price"),
                       trailing: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue[800]),
